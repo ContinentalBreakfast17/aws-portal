@@ -10,26 +10,29 @@
 		</div>
 
 		<div v-if="!authenticated">
-			<auth/>
+			<auth @authSuccess="signIn()"/>
 		</div>
 	</div>
 </template>
 
 <script>
-import auth from './components/auth.vue';
+import { mapState, mapActions } from 'vuex'
+import auth from './components/auth.vue'
 
 export default {
 	name: 'App',
 	components: {
 		auth
 	},
-	data: function(){
-		return {
-			authenticated: false,
-		}
+	computed: {
+		...mapState({
+			authenticated: state => state.auth.authenticated
+		})
 	},
 	methods: {
-		
+		...mapActions({
+			signIn: 'auth/signIn'
+		})
 	},
 	mounted: function(){
 

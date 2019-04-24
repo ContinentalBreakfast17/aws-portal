@@ -32,6 +32,7 @@ export default {
 				// handle MFA and new password required https://aws-amplify.github.io/docs/js/authentication#common-authentication-use-cases
 				console.log(user)
 				this.getToken()
+				this.$emit('authSuccess')
 			}).catch(err => {
 				console.log(err)
 			});

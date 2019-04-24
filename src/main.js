@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './app.vue'
 import router from './router'
+import store from './store/index'
 
 import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
@@ -55,6 +56,7 @@ Amplify.configure({
 
 
 new Vue({
-	router,
-	render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
