@@ -1,22 +1,23 @@
 <template>
 	<div id="app">
 		<div v-if="authenticated">
+			<span>Hello {{username}}</span>
 			<div id="nav">
 				<router-link to="/">Home</router-link> |
 				<router-link to="/about">About</router-link> |
-				<router-link to="/login">Login</router-link>
+				<a @click="logout()">Logout</a>
 			</div>
 			<router-view/>
 		</div>
 
 		<div v-if="!authenticated">
-			<auth @authSuccess="signIn()"/>
+			<auth ref="authenticator"/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import auth from './components/auth.vue'
 
 export default {
@@ -27,19 +28,26 @@ export default {
 	computed: {
 		...mapState({
 			authenticated: state => state.auth.authenticated
+		}),
+		...mapGetters({
+			username: 'auth/getUsername'
 		})
 	},
 	methods: {
 		...mapActions({
-			signIn: 'auth/signIn'
+			refreshToken: 'auth/refreshToken',
+			refreshUser: 'auth/refreshUser',
+			logout: 'auth/logout'
 		})
 	},
 	mounted: function(){
-
+		this.refreshUser()
+		.then(() => {
+			this.refreshToken().catch(err => {})
+		}).catch(err => {})
 	}
 }
 </script>
-
 
 <style>
 #app {

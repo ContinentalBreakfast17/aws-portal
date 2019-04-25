@@ -8,14 +8,13 @@
 
 <script>
 import { Auth } from 'aws-amplify'
-import { components, AmplifyEventBus } from 'aws-amplify-vue';
-import VueCookies from 'vue-cookies'
+import { components } from 'aws-amplify-vue';
+import { mapState, mapActions } from 'vuex'
 
 export default {
 	name: 'auth',
 	components: {
-		...components,
-		AmplifyEventBus
+		...components
 	},
 	data: function(){
 		return {
@@ -24,25 +23,21 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions({
+			registerLogin: 'auth/registerLogin',
+			registerLogout: 'auth/registerLogout'
+		}),
+
 		login: function(){
 			Auth.signIn({
 				'username': this.username,
 				'password': this.password
 			}).then(user => {
-				// handle MFA and new password required https://aws-amplify.github.io/docs/js/authentication#common-authentication-use-cases
-				console.log(user)
-				this.getToken()
-				this.$emit('authSuccess')
+				// handle MFA, new password required, and email verification https://aws-amplify.github.io/docs/js/authentication#common-authentication-use-cases
+				this.registerLogin(user)
 			}).catch(err => {
 				console.log(err)
-			});
-		},
-		getToken: function(){
-			Auth.currentSession()
-			.then(data => {
-				console.log(data)
-			}).catch(err => {
-				console.log(err)
+				this.registerLogout()
 			});
 		}
 	},
