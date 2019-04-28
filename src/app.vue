@@ -1,12 +1,7 @@
 <template>
 	<div id="app">
 		<div v-if="authenticated">
-			<span>Hello {{username}}</span>
-			<div id="nav">
-				<router-link to="/">Home</router-link> |
-				<router-link to="/about">About</router-link> |
-				<a @click="logout()">Logout</a>
-			</div>
+			<navbar/>
 			<router-view/>
 		</div>
 
@@ -17,27 +12,25 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import auth from './components/auth.vue'
+import navbar from './components/navbar.vue'
 
 export default {
 	name: 'App',
 	components: {
-		auth
+		auth,
+		navbar
 	},
 	computed: {
 		...mapState({
 			authenticated: state => state.auth.authenticated
-		}),
-		...mapGetters({
-			username: 'auth/getUsername'
 		})
 	},
 	methods: {
 		...mapActions({
 			refreshToken: 'auth/refreshToken',
-			refreshUser: 'auth/refreshUser',
-			logout: 'auth/logout'
+			refreshUser: 'auth/refreshUser'
 		})
 	},
 	mounted: function(){
@@ -56,6 +49,5 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
 }
 </style>

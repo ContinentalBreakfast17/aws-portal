@@ -2,11 +2,16 @@ import Vue from 'vue'
 import App from './app.vue'
 import router from './router'
 import store from './store/index'
+import api from './api/index'
 
 import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 
 Vue.use(AmplifyPlugin, AmplifyModules)
+
+// this _can't_ be best practice
+api.$store = store
+Vue.use(api)
 
 Vue.config.productionTip = false
 

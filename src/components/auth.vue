@@ -1,5 +1,5 @@
 <template>
-	<div class="auth">
+	<div id="auth">
 		<div id="err" v-if="loginError !== ''">
 			{{loginError}}
 		</div>
@@ -209,9 +209,14 @@ export default {
 			this.currentRender = this.renders.loginForm
 		}
 	},
-
 	mounted: function(){
 		this.reset()
 	}
 }
 </script>
+
+<style>
+#auth {
+	margin-top: 60px;
+}
+</style>
