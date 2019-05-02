@@ -10,8 +10,9 @@
 		<li class="navbar-user">
 			<div class="dropdown">
 				<a @click="userDropdown = !userDropdown" class="dropdown-trigger">{{username}} <i class="fa fa-caret-down"></i></a>
-				<div v-if="userDropdown" class="dropdown-content">
-					<a @click="logout()">Sign out</a>
+				<div v-if="userDropdown" class="dropdown-content" v-on-clickaway="hideDropdown">
+					<a class="dropdown-item">Settings</a>
+					<a class="dropdown-item" @click="logout()">Sign out</a>
 				</div>
 			</div>
 		</li>
@@ -21,9 +22,11 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import {mixin as clickaway} from 'vue-clickaway'
 
 export default {
 	name: "navbar",
+	mixins: [clickaway],
 	data: function(){
 		return {
 			pages: [
@@ -34,6 +37,10 @@ export default {
 				{
 					name: 'About',
 					link: '/about'
+				},
+				{
+					name: 'Minecraft',
+					link: '/minecraft'
 				}
 			],
 			userDropdown: false
@@ -47,7 +54,11 @@ export default {
 	methods: {
 		...mapActions({
 			logout: 'auth/logout'
-		})
+		}),
+
+		hideDropdown: function(){
+			this.userDropdown = false
+		}
 	}
 }
 </script>
@@ -79,11 +90,13 @@ li.navbar-page .link {
 	padding: 14px 16px;
 	text-decoration: none;
 	color: white;
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit browsers */
 }
 
 .dropdown-content:hover,
 li.navbar-page .link:hover {
-	background-color: #333;
+	background-color: #333333;
 }
 
 li.navbar-user .dropdown-trigger:hover {
@@ -104,14 +117,26 @@ li.navbar-user .dropdown-trigger:hover {
 }
 
 .dropdown-content {
-	cursor: pointer;
 	position: absolute;
 	z-index: 1;
 	display: block;
-	min-width: 160px;
-	text-align: left;
-	background-color: #999;
 	overflow: hidden;
+	border-style: solid;
+	border-width: 2px;
+	min-width: 50px;
+}
+
+.dropdown-item {
+	display: block;
+	cursor: pointer;
+	text-align: left;
+	background-color: #ffffff;
+	color: black;
+	padding: 4px;
+}
+
+.dropdown-item:hover {
+	background-color: #333333;
 	color: white;
 }
 </style>

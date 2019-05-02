@@ -11,27 +11,23 @@ const API = {
 	}),
 
 	install: function(Vue, options) {
-		/*API.axios = axios.create({
+		API.axios = axios.create({
 			baseURL: '/api',
 			timeout: 30000
 		})
-*/
+
 		Vue.mixin({
 			methods: {
 				call: function(){
-					/*API.refreshToken().then(() => {
-						//console.log(API.getTokens().idToken.jwtToken)
-
+					return API.refreshToken().then(() => {
 						let request = {
-							url: '/minecraft',
+							url: 'https://4awymbocy5.execute-api.us-east-2.amazonaws.com/api/minecraft/test',
 							method: 'get',
 							headers: {'Authorization': API.getTokens().idToken.jwtToken}
 						}
 
-						API.axios.request(request).then(data => {
-							console.log(data)
-						}).catch(err => {console.log(err)})
-					})*/
+						return API.axios.request(request)
+					})
 				}
 			}
 		})

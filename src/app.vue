@@ -2,7 +2,7 @@
 	<div id="app">
 		<div v-if="authenticated">
 			<navbar/>
-			<router-view/>
+			<router-view class="main"/>
 		</div>
 
 		<div v-if="!authenticated">
@@ -49,5 +49,9 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+}
+
+.main {
+	margin-top: 0px;
 }
 </style>
